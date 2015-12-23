@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="RapidJSON" />
+		<Option platforms="Unix;" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option platforms="Unix;" />
+				<Option output="bin/Debug/RapidJSON" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wfatal-errors" />
+					<Add option="-g" />
+					<Add option="-std=c++14" />
+					<Add directory="/opt/local/include" />
+					<Add directory="rapidjson/include" />
+				</Compiler>
+				<Linker>
+					<Add library="/opt/local/lib/libboost_system.so" />
+					<Add library="/opt/local/lib/libboost_timer.so" />
+					<Add directory="/opt/local/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option platforms="Unix;" />
+				<Option output="bin/Release/RapidJSON" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wfatal-errors" />
+					<Add option="-Ofast" />
+					<Add option="-std=c++14" />
+					<Add directory="/opt/local/include" />
+					<Add directory="rapidjson/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="/opt/local/lib/libboost_system.so" />
+					<Add library="/opt/local/lib/libboost_timer.so" />
+					<Add directory="/opt/local/lib" />
+				</Linker>
+			</Target>
+			<Target title="CrossAtom">
+				<Option platforms="Unix;" />
+				<Option output="bin/CrossAtom/RapidJSON" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/CrossAtom/" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_compiler_crossatom" />
+				<Compiler>
+					<Add option="-Wfatal-errors" />
+					<Add option="-Ofast" />
+					<Add option="-std=c++14" />
+					<Add directory="/opt/local/include" />
+					<Add directory="rapidjson/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="/opt/local/lib/libboost_system.so" />
+					<Add library="/opt/local/lib/libboost_timer.so" />
+					<Add library="/opt/local/lib/libboost_chrono.so" />
+					<Add directory="/opt/local/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="getmember.h" />
+		<Unit filename="getvalue.h" />
+		<Unit filename="jsonWrapper.cpp" />
+		<Unit filename="jsonWrapper.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
