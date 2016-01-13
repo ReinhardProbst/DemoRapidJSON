@@ -43,6 +43,8 @@ namespace rapidjson
 
 #include "jsonWrapper.h"
 
+#include "json/src/json.hpp"
+
 constexpr int LOOP_CNT = 1000000;
 constexpr int MAX_IP = 4;
 
@@ -323,6 +325,26 @@ void parseIPCfgWithTable()
     JSON_parserDelete(jsonParserHandle);
 }
 
+void parsen_nl_json()
+{
+    char pbuffer[1000];
+
+    for(auto i = 0; i < LOOP_CNT; i++)
+    {
+        memcpy(pbuffer, json_ipcfg, sizeof(json_ipcfg));
+
+        auto js = nlohmann::json::parse(pbuffer);
+
+        myipcfg.schemaVersion  = js["schemaVersion"];
+        myipcfg.dhcp.active    = js["dhcp"]["active"];
+        myipcfg.dhcp.interface = js["dhcp"]["interface"];
+        myipcfg.ip[0].addr     = js["ip"][0]["addr"];
+        myipcfg.ip[0].mask     = js["ip"][0]["mask"];
+        myipcfg.ip[1].addr     = js["ip"][1]["addr"];
+        myipcfg.ip[1].mask     = js["ip"][1]["mask"];
+    }
+}
+
 void output(const char *title)
 {
 	std::cout << title << "schemaVersion:" << myipcfg.schemaVersion
@@ -393,6 +415,16 @@ int main(int argc, char* argv[])
     }
 
 	output("Table - ");
+
+    {
+        memset(&myipcfg, 0, sizeof(myipcfg));
+
+        boost::timer::auto_cpu_timer act;
+
+        parsen_nl_json();
+    }
+
+	output("NL-Json - ");
 
     return 0;
 }

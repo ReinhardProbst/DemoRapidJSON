@@ -16,8 +16,6 @@
 				<Compiler>
 					<Add option="-Wfatal-errors" />
 					<Add option="-g" />
-					<Add directory="/opt/local/include" />
-					<Add directory="rapidjson/include" />
 				</Compiler>
 				<Linker>
 					<Add directory="/opt/local/lib" />
@@ -32,8 +30,6 @@
 				<Compiler>
 					<Add option="-Wfatal-errors" />
 					<Add option="-Ofast" />
-					<Add directory="/opt/local/include" />
-					<Add directory="rapidjson/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -43,8 +39,10 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-fexceptions" />
-			<Add option="-std=c++14" />
+			<Add option="-std=c++1z" />
+			<Add directory="/opt/local/include" />
+			<Add directory="rapidjson/include" />
+			<Add directory="json/src" />
 		</Compiler>
 		<Linker>
 			<Add library="/opt/local/lib/libboost_timer.so" />
