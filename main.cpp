@@ -239,9 +239,8 @@ void parseIPCfgWithIndexException()
             }
             catch(rapidjson::exception &ex)
             {
-                //std::cout << ex.what(); // To much overhead in case of JSON fault
+                std::cout << ex.what(); // To much overhead in case of JSON fault
             }
-
         }
     }
 }
@@ -280,7 +279,7 @@ void parseIPCfgWithFindException()
             }
             catch(rapidjson::exception &ex)
             {
-                    //std::cout << ex.what(); // To much overhead in case of JSON fault
+                std::cout << ex.what(); // To much overhead in case of JSON fault
             }
         }
     }
@@ -333,15 +332,22 @@ void parsen_nl_json()
     {
         memcpy(pbuffer, json_ipcfg, sizeof(json_ipcfg));
 
-        auto js = nlohmann::json::parse(pbuffer);
+        try
+        {
+            auto js = nlohmann::json::parse(pbuffer);
 
-        myipcfg.schemaVersion  = js["schemaVersion"];
-        myipcfg.dhcp.active    = js["dhcp"]["active"];
-        myipcfg.dhcp.interface = js["dhcp"]["interface"];
-        myipcfg.ip[0].addr     = js["ip"][0]["addr"];
-        myipcfg.ip[0].mask     = js["ip"][0]["mask"];
-        myipcfg.ip[1].addr     = js["ip"][1]["addr"];
-        myipcfg.ip[1].mask     = js["ip"][1]["mask"];
+            myipcfg.schemaVersion  = js["schemaVersion"];
+            myipcfg.dhcp.active    = js["dhcp"]["active"];
+            myipcfg.dhcp.interface = js["dhcp"]["interface"];
+            myipcfg.ip[0].addr     = js["ip"][0]["addr"];
+            myipcfg.ip[0].mask     = js["ip"][0]["mask"];
+            myipcfg.ip[1].addr     = js["ip"][1]["addr"];
+            myipcfg.ip[1].mask     = js["ip"][1]["mask"];
+        }
+        catch(const std::exception& ex)
+        {
+            std::cout << ex.what(); // To much overhead in case of JSON fault
+        }
     }
 }
 
