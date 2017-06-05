@@ -17,9 +17,6 @@
 					<Add option="-Wfatal-errors" />
 					<Add option="-g" />
 				</Compiler>
-				<Linker>
-					<Add directory="/opt/local/lib" />
-				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option platforms="Unix;" />
@@ -33,19 +30,19 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add directory="/opt/local/lib" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-m64" />
 			<Add option="-std=c++1z" />
-			<Add directory="/opt/local/include" />
 			<Add directory="rapidjson/include" />
 			<Add directory="json/src" />
 		</Compiler>
 		<Linker>
-			<Add library="/opt/local/lib/libboost_timer.so" />
+			<Add option="-m64" />
+			<Add library="libboost_timer" />
 		</Linker>
 		<Unit filename="getmember.h" />
 		<Unit filename="getvalue.h" />
