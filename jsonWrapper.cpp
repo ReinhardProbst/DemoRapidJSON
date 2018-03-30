@@ -381,7 +381,7 @@ uint32_t JSON_BinToText(ParserHandle hDoc, unsigned char* binBuffer) {
 }
 
 uint32_t RecurseInterpret(GenericValue<UTF8<char>, MyAllocator>& jsonObject, std::unordered_map<std::string, std::unordered_map<std::string, JsonBinaryStructMapInfo> >* pInterpreter, std::unordered_map<std::string, JsonBinaryStructMapInfo>& jsonObjectMapping,
-                          unsigned char* binBuffer, uint32_t binBufferSize) {
+                          unsigned char* binBuffer, uint32_t) {
 
 
     uint32_t returnCode = 0;

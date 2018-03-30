@@ -1,0 +1,23 @@
+JSON string to parse: {"schemaVersion":1,"dhcp":{"active":true,"interface":1},"ip":[{"addr":1234,"mask":2345},{"addr":3456,"mask":4567}]}
+ 2.906644s wall, 2.890000s user + 0.000000s system = 2.890000s CPU (99.4%)
+Original - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:1234 ip[0].mask:2345 ip[1].addr:3456 ip[1].mask:4567
+ 2.880456s wall, 2.880000s user + 0.000000s system = 2.880000s CPU (100.0%)
+Template - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:1234 ip[0].mask:2345 ip[1].addr:3456 ip[1].mask:4567
+ 2.883602s wall, 2.890000s user + 0.000000s system = 2.890000s CPU (100.2%)
+Overload - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:1234 ip[0].mask:2345 ip[1].addr:3456 ip[1].mask:4567
+ 2.569359s wall, 2.560000s user + 0.000000s system = 2.560000s CPU (99.6%)
+IndexException - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:1234 ip[0].mask:2345 ip[1].addr:3456 ip[1].mask:4567
+ 3.030351s wall, 3.030000s user + 0.000000s system = 3.030000s CPU (100.0%)
+FindException - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:1234 ip[0].mask:2345 ip[1].addr:3456 ip[1].mask:4567
+ 3.295297s wall, 3.290000s user + 0.000000s system = 3.290000s CPU (99.8%)
+Table - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:1234 ip[0].mask:2345 ip[1].addr:3456 ip[1].mask:4567
+ 7.463173s wall, 7.470000s user + 0.000000s system = 7.470000s CPU (100.1%)
+NL-Json - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:1234 ip[0].mask:2345 ip[1].addr:3456 ip[1].mask:4567
+
+JSON extended string to parse: {"schemaVersion":1,"dynamicHostControlProtocol":{"active":true,"interface":1},"ipVersion4":[{"address":1234,"netmask":2345},{"address":3456,"netmask":4567}]}
+ 2.833155s wall, 2.830000s user + 0.000000s system = 2.830000s CPU (99.9%)
+Overload - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:0 ip[0].mask:0 ip[1].addr:0 ip[1].mask:0
+
+JSON short string to parse: {"v":1,"dhcp":{"a":true,"i":1},"ipV4":[{"a":1234,"n":2345},{"a":3456,"n":4567}]}
+ 2.566379s wall, 2.560000s user + 0.000000s system = 2.560000s CPU (99.8%)
+Overload - schemaVersion:1 dhcp.active:1 dhcp.interface:1 ip[0].addr:1234 ip[0].mask:2345 ip[1].addr:3456 ip[1].mask:4567

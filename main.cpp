@@ -41,7 +41,7 @@ class exception {
 
 #include "jsonWrapper.h"
 
-#include "json/src/json.hpp"
+#include "nlohmann/json.hpp"
 
 constexpr int LOOP_CNT = 1000000;
 constexpr int MAX_IP = 4;
@@ -66,6 +66,8 @@ struct __attribute__((packed, aligned(4))) IpCfg {
 struct IpCfg myipcfg;
 
 const char json_ipcfg[] = "{\"schemaVersion\":1,\"dhcp\":{\"active\":true,\"interface\":1},\"ip\":[{\"addr\":1234,\"mask\":2345},{\"addr\":3456,\"mask\":4567}]}";
+const char json_ipcfg_short[] = "{\"v\":1,\"dhcp\":{\"a\":true,\"i\":1},\"ipV4\":[{\"a\":1234,\"n\":2345},{\"a\":3456,\"n\":4567}]}";
+const char json_ipcfg_extended[] = "{\"schemaVersion\":1,\"dynamicHostControlProtocol\":{\"active\":true,\"interface\":1},\"ipVersion4\":[{\"address\":1234,\"netmask\":2345},{\"address\":3456,\"netmask\":4567}]}";
 
 #include "getmember.h"
 #include "getvalue.h"
@@ -169,6 +171,72 @@ void parseIPCfgWithOverload() {
                 for(rapidjson::SizeType i = 0; i < n; ++i) {
                     GetValue(array[i], "addr", &myipcfg.ip[i].addr);
                     GetValue(array[i], "mask", &myipcfg.ip[i].mask);
+                }
+            }
+        }
+    }
+}
+
+void parseIPCfgWithOverloadExt() {
+    char abuffer[0x10000];
+    char pbuffer[1000];
+
+    for(int i = 0; i < LOOP_CNT; i++) {
+        rapidjson::MemoryPoolAllocator<> mpa(&abuffer[0], sizeof(abuffer));
+        rapidjson::Document document(&mpa);
+
+        memcpy(pbuffer, json_ipcfg_extended, sizeof(json_ipcfg_extended));
+
+        if(document.ParseInsitu(pbuffer).HasParseError()) {
+            std::cout << "Error parsing" << std::endl;
+        } else {
+            rapidjson::Value obj;
+
+            GetValue(document, "schemaVersion", &myipcfg.schemaVersion);
+            if(GetValue(document, "dynamicHostControlProtocol", obj)) {
+                GetValue(obj, "active", &myipcfg.dhcp.active);
+                GetValue(obj, "interface", &myipcfg.dhcp.interface);
+            }
+
+            rapidjson::SizeType n;
+            rapidjson::Value array[MAX_IP];
+            if(GetValue(document, "ipV4", &array[0], MAX_IP, n)) {
+                for(rapidjson::SizeType i = 0; i < n; ++i) {
+                    GetValue(array[i], "address", &myipcfg.ip[i].addr);
+                    GetValue(array[i], "netmask", &myipcfg.ip[i].mask);
+                }
+            }
+        }
+    }
+}
+
+void parseIPCfgWithOverloadShort() {
+    char abuffer[0x10000];
+    char pbuffer[1000];
+
+    for(int i = 0; i < LOOP_CNT; i++) {
+        rapidjson::MemoryPoolAllocator<> mpa(&abuffer[0], sizeof(abuffer));
+        rapidjson::Document document(&mpa);
+
+        memcpy(pbuffer, json_ipcfg_short, sizeof(json_ipcfg_short));
+
+        if(document.ParseInsitu(pbuffer).HasParseError()) {
+            std::cout << "Error parsing" << std::endl;
+        } else {
+            rapidjson::Value obj;
+
+            GetValue(document, "v", &myipcfg.schemaVersion);
+            if(GetValue(document, "dhcp", obj)) {
+                GetValue(obj, "a", &myipcfg.dhcp.active);
+                GetValue(obj, "i", &myipcfg.dhcp.interface);
+            }
+
+            rapidjson::SizeType n;
+            rapidjson::Value array[MAX_IP];
+            if(GetValue(document, "ipV4", &array[0], MAX_IP, n)) {
+                for(rapidjson::SizeType i = 0; i < n; ++i) {
+                    GetValue(array[i], "a", &myipcfg.ip[i].addr);
+                    GetValue(array[i], "n", &myipcfg.ip[i].mask);
                 }
             }
         }
@@ -305,7 +373,9 @@ void output(const char *title) {
               << std::endl;
 }
 
-int main(int argc, char* argv[]) {
+int main(int, char**) {
+    std::cout << "JSON string to parse: " << &json_ipcfg[0] << std::endl;
+
     {
         memset(&myipcfg, 0, sizeof(myipcfg));
 
@@ -375,6 +445,30 @@ int main(int argc, char* argv[]) {
     }
 
     output("NL-Json - ");
+
+    std::cout << std::endl << "JSON extended string to parse: " << &json_ipcfg_extended[0] << std::endl;
+
+    {
+        memset(&myipcfg, 0, sizeof(myipcfg));
+
+        boost::timer::auto_cpu_timer act;
+
+        parseIPCfgWithOverloadExt();
+    }
+
+    output("Overload - ");
+
+    std::cout << std::endl << "JSON short string to parse: " << &json_ipcfg_short[0] << std::endl;
+
+    {
+        memset(&myipcfg, 0, sizeof(myipcfg));
+
+        boost::timer::auto_cpu_timer act;
+
+        parseIPCfgWithOverloadShort();
+    }
+
+    output("Overload - ");
 
     return 0;
 }

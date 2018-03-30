@@ -27,10 +27,3 @@
 *.out
 *.app
 
-# Generated files
-bin/
-obj/
-
-# Codeblocks
-*.layout
-*.depend
