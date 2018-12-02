@@ -332,7 +332,7 @@ void parseIPCfgWithTable() {
     JSON_parserObjectAddMember(objHandleRoot, "dhcp",          JSON_OBJECT,      offsetof(IpCfg, dhcp),          sizeof(IpCfg::dhcp));
     JSON_parserObjectAddMember(objHandleRoot, "ip",            JSON_OBJECTARRAY, offsetof(IpCfg, ip),            sizeof(IpCfg::ip[0]));
 
-    myipcfg.n = MAX_IP; // Set usable element count
+    myipcfg.n = MAX_IP;  // Set usable element count
 
     for(auto i = 0; i < LOOP_CNT; i++) {
         memcpy(pbuffer, json_ipcfg, sizeof(json_ipcfg));
@@ -370,11 +370,12 @@ void output(const char *title) {
               << " dhcp.active:" << myipcfg.dhcp.active << " dhcp.interface:" << myipcfg.dhcp.interface
               << " ip[0].addr:" << myipcfg.ip[0].addr << " ip[0].mask:" << myipcfg.ip[0].mask
               << " ip[1].addr:" << myipcfg.ip[1].addr << " ip[1].mask:" << myipcfg.ip[1].mask
-              << std::endl;
+              << std::endl << "+++" << std::endl;
 }
 
 int main(int, char**) {
-    std::cout << "JSON string to parse: " << &json_ipcfg[0] << std::endl;
+    std::cout << "JSON string to parse: " << &json_ipcfg[0]
+              << std::endl << "+++" << std::endl;
 
     {
         memset(&myipcfg, 0, sizeof(myipcfg));
@@ -446,7 +447,7 @@ int main(int, char**) {
 
     output("NL-Json - ");
 
-    std::cout << std::endl << "JSON extended string to parse: " << &json_ipcfg_extended[0] << std::endl;
+    std::cout << "JSON long string to parse: " << &json_ipcfg_extended[0] << std::endl;
 
     {
         memset(&myipcfg, 0, sizeof(myipcfg));
@@ -458,7 +459,7 @@ int main(int, char**) {
 
     output("Overload - ");
 
-    std::cout << std::endl << "JSON short string to parse: " << &json_ipcfg_short[0] << std::endl;
+    std::cout << "JSON short string to parse: " << &json_ipcfg_short[0] << std::endl;
 
     {
         memset(&myipcfg, 0, sizeof(myipcfg));

@@ -5,7 +5,7 @@ CONFIG += c++17
 CONFIG -= app_bundle
 CONFIG -= qt
 
-QMAKE_CXXFLAGS *= -std=c++1z -fdiagnostics-color=always -Wfatal-errors
+QMAKE_CXXFLAGS *= -std=c++17 -fdiagnostics-color=always -Wfatal-errors
 
 QMAKE_CXXFLAGS_DEBUG *= -g -Og
 
